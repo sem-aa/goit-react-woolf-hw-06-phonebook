@@ -1,16 +1,34 @@
-export const App = () => {
+import React, { useEffect } from 'react';
+import ContactForm from './ContactForm/ContactForm';
+import Filter from './Filter/Filter';
+import ContactList from './ContactList/ContactList';
+import Container from './Container/Container';
+import { getFilter, getContacts } from '../redux/selectors';
+import { useSelector } from 'react-redux';
+
+const App = () => {
+  const filter = useSelector(getFilter);
+  const contacts = useSelector(getContacts);
+
+  useEffect(() => {
+    localStorage.setItem('contacts', JSON.stringify(contacts));
+  }, [contacts]);
+
+  const getFilteredContacts = () => {
+    return contacts?.filter(contact =>
+      contact.name.toLowerCase().includes(filter.filter.toLowerCase())
+    );
+  };
+
+  const filteredContacts = getFilteredContacts();
+
   return (
-    <div
-      style={{
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        fontSize: 40,
-        color: '#010101'
-      }}
-    >
-      React homework template
-    </div>
+    <Container>
+      <ContactForm />
+      <Filter />
+      <ContactList filteredContacts={filteredContacts} />
+    </Container>
   );
 };
+
+export default App;
