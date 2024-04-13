@@ -1,6 +1,3 @@
-// Filter.js
-
-import React from 'react';
 import { useDispatch } from 'react-redux';
 import { setStatusFilter } from '../../redux/filtersSlice';
 import styles from './Filter.module.css';
